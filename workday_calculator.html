@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Workdays Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="date"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Workdays Calculator</h2>
+        <label for="start">Start Date:</label>
+        <input type="date" id="start" name="start">
+        <label for="end">End Date:</label>
+        <input type="date" id="end" name="end">
+        <button onclick="calculateWorkdays()">Calculate</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function calculateWorkdays() {
+            const startDateInput = document.getElementById('start').value;
+            const endDateInput = document.getElementById('end').value;
+
+            const startDate = new Date(startDateInput);
+            const endDate = new Date(endDateInput);
+
+            // Set the timezone to UTC
+            startDate.setUTCHours(0, 0, 0, 0);
+            endDate.setUTCHours(0, 0, 0, 0);
+
+            let count = 0;
+            let currentDay = startDate;
+
+            while (currentDay <= endDate) {
+                const dayOfWeek = currentDay.getUTCDay();
+                if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+                    count++;
+                }
+                currentDay.setUTCDate(currentDay.getUTCDate() + 1);
+            }
+
+            const workHours = count * 8; // Assuming 8 work hours in a workday
+
+            document.getElementById('result').innerHTML = `Workdays: ${count} <br> Work Hours (8 hours/day): ${workHours}`;
+        }
+    </script>
+</body>
+</html>
